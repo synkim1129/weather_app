@@ -9,7 +9,8 @@ question = st.text_input("질문을 입력하세요:")
 # 질문 전송 버튼
 if st.button("질문 전송"):
     if question:
-        weather_info, answer = get_answer(question)
+        with st.spinner("답변을 기다리는 중..."):
+            weather_info, answer = get_answer(question)
         st.markdown("### 답변")
         st.markdown(answer)
         st.markdown("### 관련 날씨 정보")
@@ -19,5 +20,6 @@ if st.button("질문 전송"):
 
 # 내일 날씨 버튼
 if st.button("내일 날씨"):
-    info = get_info()
+    with st.spinner("정보를 가져오는 중..."):
+        info = get_info()
     st.markdown(info)

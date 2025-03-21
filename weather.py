@@ -18,7 +18,7 @@ llm=ChatOllama(model="exaone3.5:32b",
 KEY_DICT = {
     'T1H': ['기온', '°C'],
     'TMP': ['기온', '°C'],
-    'RN1': ['1시간 강수량', 'mm'],
+    'RN1': ['1시간 강수량(mm)', ''],
     'SKY': ['하늘상태', ''],
     # 'UUU': ['동서바람성분', 'm/s'],
     # 'VVV': ['남북바람성분', 'm/s'],
@@ -68,8 +68,9 @@ def get_current_datetime():
 
 def get_datetime_from_query(query):
     instruction_datetime = """
-    현재 날짜 및 시간은 {current_datetime}입니다. 사용자의 쿼리에서 어떤 날짜와 시간의 날씨 정보를 조회해야 하는지 알려주세요. 필요한 모든 날짜 및 시간을 제공하세요. 별도의 정보가 없다면 현재의 정보를 알려주세요. 날짜와 시간 정보 외의 불필요한 텍스트는 제거하세요.
+    사용자의 쿼리에서 어떤 날짜와 시간의 날씨 정보를 조회해야 하는지 알려주세요. 필요한 모든 날짜 및 시간을 제공하세요. 별도의 정보가 없다면 현재의 정보를 알려주세요. 날짜와 시간 정보 외의 불필요한 텍스트는 제거하세요.
 
+    현재 날짜 및 시간: {current_datetime}
     Query: {query}
 
     Format:
@@ -112,10 +113,9 @@ def ultra_short_ncst(base_date, base_time, nx, ny):
             informations[KEY_DICT[category][0]] = value + KEY_DICT[category][1]
 
     location = "서울시 구로구" # TODO: 사용자 위치 정보 받아오기
-    weather_info = f"""{base_date[:4]}년 {base_date[4:6]}월 {base_date[-2:]}일 {base_time[:2]}시 {base_time[2:]}분 {location}의 날씨는 """ 
+    weather_info = f"""__{base_date[:4]}년 {base_date[4:6]}월 {base_date[-2:]}일 {base_time[:2]}시 {base_time[2:]}분 {location}의 날씨:__ \n""" 
     for key, value in informations.items():
-        weather_info += f"\n {key} : {value}, "
-    weather_info = weather_info[:-2] + "\n입니다."
+        weather_info += f"   - {key} : {value}\n"
     return weather_info
 
 def ultra_short_fcst(base_date, base_time, nx, ny):
@@ -150,10 +150,9 @@ def ultra_short_fcst(base_date, base_time, nx, ny):
         raise NoInformationError("No information available")
 
     location = "서울시 구로구" # TODO: 사용자 위치 정보 받아오기
-    weather_info = f"""{base_date[:4]}년 {base_date[4:6]}월 {base_date[-2:]}일 {base_time[:2]}시 {base_time[2:]}분 {location}의 날씨는 """ 
+    weather_info = f"""__{base_date[:4]}년 {base_date[4:6]}월 {base_date[-2:]}일 {base_time[:2]}시 {base_time[2:]}분 {location}의 날씨:__ \n""" 
     for key, value in informations.items():
-        weather_info += f"\n {key} : {value}, "
-    weather_info = weather_info[:-2] + "\n입니다."
+        weather_info += f"   - {key} : {value}\n"
     return weather_info
 
 
@@ -196,10 +195,9 @@ def short_fcst(base_date, base_time, nx, ny):
             informations[KEY_DICT[category][0]] = value + KEY_DICT[category][1]
 
     location = "서울시 구로구" # TODO: 사용자 위치 정보 받아오기
-    weather_info = f"""{base_date[:4]}년 {base_date[4:6]}월 {base_date[-2:]}일 {base_time[:2]}시 {base_time[2:]}분 {location}의 날씨는 """ 
+    weather_info = f"""__{base_date[:4]}년 {base_date[4:6]}월 {base_date[-2:]}일 {base_time[:2]}시 {base_time[2:]}분 {location}의 날씨:__ \n""" 
     for key, value in informations.items():
-        weather_info += f"\n {key} : {value}, "
-    weather_info = weather_info[:-2] + "\n입니다."
+        weather_info += f"   - {key} : {value}\n"
     return weather_info
 
 def get_answer(query, nx=58, ny=125):
