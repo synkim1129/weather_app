@@ -30,7 +30,7 @@ KEY_DICT = {
 }
 
 DEG_CODE = {0 : 'N', 360 : 'N', 180 : 'S', 270 : 'W', 90 : 'E', 22.5 :'NNE', 45 : 'NE', 67.5 : 'ENE', 112.5 : 'ESE', 135 : 'SE', 157.5 : 'SSE', 202.5 : 'SSW', 225 : 'SW', 247.5 : 'WSW', 292.5 : 'WNW', 315 : 'NW', 337.5 : 'NNW'}
-PYT_CODE = {0 : '강수 없음', 1 : '비', 2 : '비/눈', 3 : '눈', 5 : '빗방울', 6 : '진눈깨비', 7 : '눈날림'}
+PTY_CODE = {0 : '강수 없음', 1 : '비', 2 : '비/눈', 3 : '눈', 5 : '빗방울', 6 : '진눈깨비', 7 : '눈날림'}
 SKY_CODE = {1 : '맑음', 3 : '구름 많음', 4 : '흐림'}
 
 def deg_to_dir(deg):
@@ -45,8 +45,8 @@ def deg_to_dir(deg):
         close_dir = DEG_CODE[deg]
     return close_dir
 
-def pyt_to_str(pyt):
-    return PYT_CODE[pyt]
+def pty_to_str(pyt):
+    return PTY_CODE[pyt]
 
 def sky_to_str(sky):
     return SKY_CODE[sky]
@@ -109,7 +109,7 @@ def ultra_short_ncst(base_date, base_time, nx, ny):
                 # value = deg_to_dir(float(value))
                 continue
             if category == 'PTY':
-                value = pyt_to_str(int(value))
+                value = pty_to_str(int(value))
             informations[KEY_DICT[category][0]] = value + KEY_DICT[category][1]
 
     location = "서울시 구로구" # TODO: 사용자 위치 정보 받아오기
@@ -141,7 +141,7 @@ def ultra_short_fcst(base_date, base_time, nx, ny):
                     # value = deg_to_dir(float(value))
                     continue
                 if category == 'PTY':
-                    value = pyt_to_str(int(value))
+                    value = pty_to_str(int(value))
                 if category == 'SKY':
                     value = sky_to_str(int(value))
                 informations[KEY_DICT[category][0]] = value + KEY_DICT[category][1]
@@ -189,7 +189,7 @@ def short_fcst(base_date, base_time, nx, ny):
                 # value = deg_to_dir(float(value))
                 continue
             if category == 'PTY':
-                value = pyt_to_str(int(value))
+                value = pty_to_str(int(value))
             if category == 'SKY':
                 value = sky_to_str(int(value))
             informations[KEY_DICT[category][0]] = value + KEY_DICT[category][1]
