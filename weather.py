@@ -232,7 +232,11 @@ def get_answer(query, region_1, region_2, region_3):
             try: 
                 weather_info += ultra_short_fcst(base_date, base_time, location, nx, ny) # 초단기 예보
             except NoInformationError as e:
-                weather_info += short_fcst(base_date, base_time, location, nx, ny) # 단기 예보보
+                try:
+                    weather_info += short_fcst(base_date, base_time, location, nx, ny) # 단기 예보
+                except NoInformationError as e:
+                    weather_info += f"__{base_date[:4]}년 {base_date[4:6]}월 {base_date[-2:]}일 {base_time[:2]}시 {base_time[2:]}분 {location}의 날씨 정보가 없습니다.__\n"
+                
         weather_info += "\n\n"
     
     
